@@ -23,6 +23,18 @@ const createItem = catchAsync(async (req, res) => {
   });
 });
 
+const getAllMyPosts = catchAsync(async (req, res) => {
+  const user = req.user;
+  const item = await ItemServices.getAllMyPostsFromDB(req.query, user);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'My posts retrieved successfully',
+    data: item,
+  });
+});
+
 const getAllItems = catchAsync(async (req, res) => {
   const item = await ItemServices.getAllItemsFromDB(req.query);
 
@@ -72,6 +84,7 @@ const deleteItem = catchAsync(async (req, res) => {
 
 export const ItemControllers = {
   createItem,
+  getAllMyPosts,
   getAllItems,
   getItem,
   updateItem,

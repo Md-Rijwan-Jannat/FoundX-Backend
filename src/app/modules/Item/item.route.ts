@@ -21,6 +21,8 @@ router.post(
   ItemControllers.createItem
 );
 
+router.get('/my-posts', auth(USER_ROLE.USER), ItemControllers.getAllMyPosts);
+
 router.get('/', ItemControllers.getAllItems);
 
 router.get('/:id', ItemControllers.getItem);

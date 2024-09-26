@@ -10,10 +10,12 @@ import { TLoginUser, TRegisterUser } from './auth.interface';
 
 const registerUser = async (payload: TRegisterUser) => {
   // checking if the user is exist
-  const user = await User.isUserExistsByEmail(payload?.email);
+  const user = await User.findOne({ email: payload?.email });
+
+  console.log(user);
 
   if (user) {
-    throw new AppError(httpStatus.NOT_FOUND, 'This user is already exist!');
+    throw new AppError(httpStatus.BAD_REQUEST, 'This user is already exist!');
   }
 
   payload.role = USER_ROLE.USER;
@@ -28,6 +30,7 @@ const registerUser = async (payload: TRegisterUser) => {
     name: newUser.name,
     email: newUser.email,
     mobileNumber: newUser.mobileNumber,
+    profilePhoto: newUser.profilePhoto,
     role: newUser.role,
     status: newUser.status,
   };
@@ -48,6 +51,14 @@ const registerUser = async (payload: TRegisterUser) => {
     accessToken,
     refreshToken,
   };
+};
+
+const checkUserExists = async (email: string): Promise<boolean> => {
+  // Search for a user by email
+  const user = await User.isUserExistsByEmail(email);
+
+  // Return true if user exists, false otherwise
+  return !!user;
 };
 const loginUser = async (payload: TLoginUser) => {
   // checking if the user is exist
@@ -77,6 +88,7 @@ const loginUser = async (payload: TLoginUser) => {
     name: user.name,
     email: user.email,
     mobileNumber: user.mobileNumber,
+    profilePhoto: user.profilePhoto,
     role: user.role,
     status: user.status,
   };
@@ -195,6 +207,7 @@ const refreshToken = async (token: string) => {
 
 export const AuthServices = {
   registerUser,
+  checkUserExists,
   loginUser,
   changePassword,
   refreshToken,

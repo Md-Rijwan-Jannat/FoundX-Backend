@@ -24,6 +24,25 @@ const registerUser = catchAsync(async (req, res) => {
   });
 });
 
+const checkUserExists = catchAsync(async (req, res) => {
+  const { email } = req.query;
+
+  // Ensure email is provided
+  if (!email || typeof email !== 'string') {
+    return res.status(400).json({ message: 'Email is required' });
+  }
+
+  // Call service to check if the user exists
+  const userExists = await AuthServices.checkUserExists(email);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: userExists ? 'User exists' : 'User does not exist',
+    data: { exists: userExists },
+  });
+});
+
 const loginUser = catchAsync(async (req, res) => {
   const result = await AuthServices.loginUser(req.body);
   const { refreshToken, accessToken } = result;
@@ -42,7 +61,7 @@ const loginUser = catchAsync(async (req, res) => {
       refreshToken,
     },
   });
-});
+}); 
 
 const changePassword = catchAsync(async (req, res) => {
   const { ...passwordData } = req.body;
@@ -70,6 +89,7 @@ const refreshToken = catchAsync(async (req, res) => {
 
 export const AuthControllers = {
   registerUser,
+  checkUserExists,
   loginUser,
   changePassword,
   refreshToken,

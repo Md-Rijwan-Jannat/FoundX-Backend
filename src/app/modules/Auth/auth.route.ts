@@ -14,6 +14,10 @@ router.post(
   validateRequest(AuthValidation.registerValidationSchema),
   AuthControllers.registerUser
 );
+
+// Check if user exists by email
+router.get('/user-exists', AuthControllers.checkUserExists);
+
 router.post(
   '/login',
   validateRequest(AuthValidation.loginValidationSchema),

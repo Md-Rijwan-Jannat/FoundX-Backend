@@ -7,14 +7,9 @@ import sendResponse from '../../utils/sendResponse';
 import { MeilisearchServices } from './meilisearch.services';
 
 const getItemsFromMeili = catchAsync(async (req: Request, res: Response) => {
-  const { searchTerm, limit } = req.query;
+  const { searchTerm } = req.query;
 
-  const numberLimit = Number(limit) || 10;
-
-  const result = await MeilisearchServices.getAllItems(
-    numberLimit,
-    searchTerm as string
-  );
+  const result = await MeilisearchServices.getAllItems(searchTerm as string);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

@@ -1,4 +1,5 @@
 import { QueryBuilder } from '../../builder/QueryBuilder';
+import { ItemCategory } from '../ItemCategory/itemCategory.model';
 import { UserSearchableFields } from '../User/user.constant';
 import { User } from '../User/user.model';
 
@@ -49,6 +50,23 @@ export const SearchItemByDateRangeQueryMaker = async (
 
     delete query.from;
     delete query.to;
+    return query;
+  }
+  return query;
+};
+
+export const SearchItemByCategoryQueryMaker = async (
+  query: Record<string, unknown>
+) => {
+  if (query?.category) {
+    const category = await ItemCategory.findOne({
+      name: query.category,
+    }).select('_id');
+
+    if (category) {
+      query['category'] = category._id;
+    }
+
     return query;
   }
   return query;

@@ -1,6 +1,6 @@
 import meiliClient from '../../utils/meilisearch';
 
-const getAllItems = async (limit: number, searchTerm?: string) => {
+const getAllItems = async (searchTerm?: string) => {
   const index = meiliClient?.index('items');
 
   if (!index) {
@@ -10,8 +10,8 @@ const getAllItems = async (limit: number, searchTerm?: string) => {
   const searchString = searchTerm || '';
 
   try {
-    const result = await index.search(searchString, { limit });
-    return result;
+    const result = await index.search(searchString);
+    return result.hits;
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error('Error searching MeiliSearch:', error);

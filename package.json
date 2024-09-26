@@ -5,6 +5,7 @@
   "author": "Next Level Developer",
   "license": "MIT",
   "scripts": {
+    "build": "tsc",
     "start": "node dist/server.js",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts"
   },
@@ -19,11 +20,13 @@
     "handlebars": "^4.7.8",
     "http-status": "^1.7.4",
     "jsonwebtoken": "^9.0.2",
-    "meilisearch": "^0.41.0",
+    "meilisearch": "^0.42.0",
     "mongoose": "^8.4.0",
     "multer": "^1.4.5-lts.1",
     "multer-storage-cloudinary": "^4.0.0",
     "nodemailer": "^6.9.14",
+    "react-form-hook": "^0.0.1",
+    "react-hook-form": "^7.53.0",
     "zod": "^3.23.8"
   },
   "devDependencies": {
